@@ -194,7 +194,7 @@
         }
     </style>
 
-    <!-- ✅ NEW META PIXEL (ID: 2543410632821366) -->
+    <!-- ✅ NEW META PIXEL (ID: 797894633335515) -->
     <script>
         !function(f,b,e,v,n,t,s)
         {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -204,16 +204,18 @@
         t.src=v;s=b.getElementsByTagName(e)[0];
         s.parentNode.insertBefore(t,s)}(window, document,'script',
         'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '2543410632821366');
+        fbq('init', '797894633335515');
         fbq('track', 'PageView', {
             page_type: 'Telegram_Join_Landing',
             creator: 'PANKAJ_BHARDWAJ',
-            niche: 'Stock_Market_Options_Nifty_BankNifty'
+            niche: 'Stock_Market_Options_Nifty_BankNifty',
+            pixel_id: '797894633335515'
         });
+        console.log('✅ NEW Pixel Initialized - ID: 797894633335515');
     </script>
     <noscript>
         <img height="1" width="1" style="display:none"
-        src="https://www.facebook.com/tr?id=2543410632821366&ev=PageView&noscript=1"/>
+        src="https://www.facebook.com/tr?id=797894633335515&ev=PageView&noscript=1"/>
     </noscript>
     <!-- END NEW META PIXEL -->
 </head>
@@ -324,9 +326,9 @@
 
         // ======== NEW TELEGRAM LINK & PIXEL ========
         const TELEGRAM_URL = 'https://t.me/+xlsswSBhcy03NGNl';
-        const PIXEL_ID = '2543410632821366';
+        const PIXEL_ID = '797894633335515';
         const BRAND_NAME = 'PANKAJ_BHARDWAJ';
-        const PIXEL_FIRED_KEY = 'subscribeEventFired_v4';
+        const PIXEL_FIRED_KEY = 'subscribeEventFired_v5';
 
         // ======== Toast helper ========
         function showToast(message, duration = 1500) {
@@ -344,9 +346,12 @@
 
         // ======== Fire all pixel events ========
         function fireAllPixelEvents(buttonId, buttonPosition) {
-            // Check if already fired in this session
+            // Check if already fired in this session (per button)
             const sessionKey = PIXEL_FIRED_KEY + '_' + buttonId;
-            if (localStorage.getItem(sessionKey) === '1') return;
+            if (localStorage.getItem(sessionKey) === '1') {
+                console.log(`⏭️ Pixel events already fired for ${buttonId}, skipping duplicate.`);
+                return;
+            }
             localStorage.setItem(sessionKey, '1');
             
             if (typeof window.fbq === 'function') {
@@ -421,7 +426,17 @@
                         timestamp: eventTime
                     });
                     
-                    console.log(`✅ Pixel (${PIXEL_ID}) tracked from ${buttonId}: Lead, Subscribe, CompleteRegistration, Contact, JoinTelegramClick, PankajJoinEvent`);
+                    // 7. Custom: NewPixelJoinEvent (specific to new pixel 797894633335515)
+                    fbq('trackCustom', 'NewPixelJoinEvent', {
+                        pixel_id: PIXEL_ID,
+                        button_position: buttonPosition,
+                        channel_link: TELEGRAM_URL,
+                        brand: BRAND_NAME,
+                        action: 'telegram_join_click',
+                        timestamp: eventTime
+                    });
+                    
+                    console.log(`✅ Pixel (${PIXEL_ID}) tracked from ${buttonId}: Lead, Subscribe, CompleteRegistration, Contact, JoinTelegramClick, PankajJoinEvent, NewPixelJoinEvent`);
                     showToast(`✅ Joined! Events tracked (${PIXEL_ID})`, 1800);
                 } catch(e) {
                     console.error('Pixel error:', e);
@@ -513,7 +528,7 @@
             console.log(`🚀 NEW Pixel Active: ${PIXEL_ID}`);
             console.log(`🔗 Telegram Link: ${TELEGRAM_URL}`);
             console.log(`✅ 2 Join Telegram Buttons (Top + Bottom) with full tracking`);
-            console.log(`✅ Events: Lead, Subscribe, CompleteRegistration, Contact, JoinTelegramClick, PankajJoinEvent`);
+            console.log(`✅ Events: Lead, Subscribe, CompleteRegistration, Contact, JoinTelegramClick, PankajJoinEvent, NewPixelJoinEvent`);
         });
 
         // ======== Scroll engagement ========
